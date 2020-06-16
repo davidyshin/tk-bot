@@ -141,12 +141,10 @@ client.on('message', (message) => {
       );
 
       // [zeta]
-    } else if (command === 'taginfo') {
+    } else if (command === 'roll') {
       // [theta]
-    } else if (command === 'showtags') {
-      // [lambda]
-    } else if (command === 'removetag') {
-      // [mu]
+        const randomNumber = Math.floor(Math.random() * 10) + 1;
+        message.channel.send(`${message.author}: ${randomNumber}`)
     }
   }
 });
