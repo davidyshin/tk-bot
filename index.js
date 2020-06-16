@@ -14,7 +14,27 @@ const path = require('path');
 const config = require('config');
 
 const app = express();
-const TeamKills = require('./models/TeamKills');
+
+const Schema = mongoose.Schema;
+
+const TeamKillsSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  kills: {
+    type: Number,
+    required: true,
+    min: 0,
+    default: 0,
+  },
+  lastKillDate: {
+    type: Date,
+    default: Date.now(),
+  },
+});
+const TeamKills = mongoose.model('teamkills', TeamKillsSchema);
+
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -143,8 +163,8 @@ client.on('message', (message) => {
       // [zeta]
     } else if (command === 'roll') {
       // [theta]
-        const randomNumber = Math.floor(Math.random() * 10) + 1;
-        message.channel.send(`${message.author}: ${randomNumber}`)
+      const randomNumber = Math.floor(Math.random() * 10) + 1;
+      message.channel.send(`${message.author}: ${randomNumber}`);
     }
   }
 });
