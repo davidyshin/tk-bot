@@ -17,7 +17,7 @@ const app = express();
 const TeamKills = require('./models/TeamKills');
 
 mongoose
-  .connect(process.env.mongo_uri, {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
@@ -152,4 +152,4 @@ client.on('message', (message) => {
 });
 
 // login to Discord with your app's token
-client.login(process.env.bot_token);
+client.login(process.env.BOT_TOKEN);
