@@ -62,7 +62,9 @@ client.on('message', (message) => {
               name: `${player.name}`,
               value: `Total Kills: ${player.kills}\n Last Kill Date: ${moment(
                 player.lastKillDate
-              ).calendar()}`,
+              )
+                .tz('America/New_York')
+                .calendar()}`,
               inline: false,
             };
           });
@@ -87,7 +89,7 @@ client.on('message', (message) => {
         query,
         {
           $inc: { kills: 1 },
-          $set: { lastKillDate: moment().tz('America/New_York').format() },
+          $set: { lastKillDate: new moment().tz('America/New_York').format() },
         },
         { new: true },
         () => {
@@ -99,9 +101,9 @@ client.on('message', (message) => {
                   name: player.name,
                   value: `Total Kills: ${
                     player.kills
-                  }\n Last Kill Date: ${moment(
-                    player.lastKillDate
-                  ).calendar()}`,
+                  }\n Last Kill Date: ${moment(player.lastKillDate)
+                    .tz('America/New_York')
+                    .calendar()}`,
                   inline: false,
                 };
               });
@@ -137,9 +139,9 @@ client.on('message', (message) => {
                   name: player.name,
                   value: `Total Kills: ${
                     player.kills
-                  }\n Last Kill Date: ${moment(
-                    player.lastKillDate
-                  ).calendar()}`,
+                  }\n Last Kill Date: ${moment(player.lastKillDate)
+                    .tz('America/New_York')
+                    .calendar()}`,
                   inline: false,
                 };
               });
