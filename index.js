@@ -61,8 +61,7 @@ client.on('message', (message) => {
             return {
               name: `${player.name}`,
               value: `Total Kills: ${player.kills}\n Last Kill Date: ${moment(
-                player.lastKillDate,
-                'America/New_York'
+                player.lastKillDate
               ).calendar()}`,
               inline: false,
             };
@@ -77,7 +76,7 @@ client.on('message', (message) => {
                 'https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/ac/Killa_Portrait.png',
             },
             fields: data,
-            timestamp: new moment().format(),
+            timestamp: new moment().tz('America/New_York').format(),
           };
           message.channel.send({ embed });
         });
@@ -86,7 +85,10 @@ client.on('message', (message) => {
       const query = { name };
       TeamKills.findOneAndUpdate(
         query,
-        { $inc: { kills: 1 }, $set: { lastKillDate: new Date() } },
+        {
+          $inc: { kills: 1 },
+          $set: { lastKillDate: moment().tz('America/New_York').format() },
+        },
         { new: true },
         () => {
           TeamKills.find()
