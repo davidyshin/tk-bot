@@ -172,8 +172,11 @@ client.on('message', (message) => {
         .then((players) => {
           if (players[0].kills < 1) {
             message.channel.send(`No one has any team kills yet`);
+          } else {
+            message.channel.send(
+              `${players[0].name} has the most team kills with ${players[0].kills}`
+            );
           }
-          message.channel.send(players[0].name);
         })
         .catch((err) => message.channel.send(err));
     }
