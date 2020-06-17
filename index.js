@@ -30,7 +30,7 @@ const TeamKillsSchema = new Schema({
   },
   lastKillDate: {
     type: Date,
-    default: Date.now(),
+    default: moment().format(),
   },
 });
 const TeamKills = mongoose.model('teamkills', TeamKillsSchema);
@@ -79,7 +79,7 @@ client.on('message', (message) => {
                 'https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/ac/Killa_Portrait.png',
             },
             fields: data,
-            timestamp: new Date(),
+            timestamp: new moment().format(),
           };
           message.channel.send({ embed });
         });
