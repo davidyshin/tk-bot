@@ -35,7 +35,6 @@ const TeamKillsSchema = new Schema({
 });
 const TeamKills = mongoose.model('teamkills', TeamKillsSchema);
 
-
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -58,16 +57,17 @@ client.on('message', (message) => {
       TeamKills.find()
         .sort({ date: -1 })
         .then((players) => {
-          const data = players.map((player) => {
-            return {
-              name: `${player.name}`,
-              value: `Total Kills: ${player.kills}\n Last Kill Date: ${moment(
-                player.lastKillDate
-              ).calendar()}`,
-              inline: false,
-            };
-          });
-
+          const data = players
+            .map((player) => {
+              return {
+                name: `${player.name}`,
+                value: `Total Kills: ${player.kills}\n Last Kill Date: ${moment(
+                  player.lastKillDate
+                ).calendar()}`,
+                inline: false,
+              };
+            })
+            .catch((err) => message.channel.send(err));
           const embed = {
             color: 0x0099ff,
             title: 'Team Kills',
@@ -117,7 +117,8 @@ client.on('message', (message) => {
                 fields: data,
               };
               message.channel.send({ embed });
-            });
+            })
+            .catch((err) => message.channel.send(err));
         }
       );
     } else if (command === 'removekill') {
@@ -158,13 +159,23 @@ client.on('message', (message) => {
               message.channel.send({ embed });
             });
         }
-      );
+      ).catch((err) => message.channel.send(err));
 
       // [zeta]
     } else if (command === 'roll') {
       // [theta]
       const randomNumber = Math.floor(Math.random() * 10) + 1;
       message.channel.send(`${message.author}: ${randomNumber}`);
+    } else if (command === 'leader') {
+      TeamKills.find()
+        .sort({ kills: -1 }) // give me the max
+        .then((players) => {
+          if (players[0].kills < 1) {
+            message.channel.send(`No one has any team kills yet`);
+          }
+          message.channel.send(players[0].name);
+        })
+        .catch((err) => message.channel.send(err));
     }
   }
 });
