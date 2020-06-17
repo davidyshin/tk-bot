@@ -57,18 +57,16 @@ client.on('message', (message) => {
       TeamKills.find()
         .sort({ date: -1 })
         .then((players) => {
-          const data = players
-            .map((player) => {
-              return {
-                name: `${player.name}`,
-                value: `Total Kills: ${player.kills}\n Last Kill Date: ${moment(
-                  player.lastKillDate,
-                  'America/New_York'
-                ).calendar()}`,
-                inline: false,
-              };
-            })
-            .catch((err) => message.channel.send(err));
+          const data = players.map((player) => {
+            return {
+              name: `${player.name}`,
+              value: `Total Kills: ${player.kills}\n Last Kill Date: ${moment(
+                player.lastKillDate,
+                'America/New_York'
+              ).calendar()}`,
+              inline: false,
+            };
+          });
           const embed = {
             color: 0x0099ff,
             title: 'Team Kills',
@@ -118,8 +116,7 @@ client.on('message', (message) => {
                 fields: data,
               };
               message.channel.send({ embed });
-            })
-            .catch((err) => message.channel.send(err));
+            });
         }
       );
     } else if (command === 'removekill') {
@@ -160,7 +157,7 @@ client.on('message', (message) => {
               message.channel.send({ embed });
             });
         }
-      ).catch((err) => message.channel.send(err));
+      );
 
       // [zeta]
     } else if (command === 'roll') {
@@ -178,8 +175,7 @@ client.on('message', (message) => {
               `${players[0].name} has the most team kills with ${players[0].kills}`
             );
           }
-        })
-        .catch((err) => message.channel.send(err));
+        });
     }
   }
 });
