@@ -9,7 +9,7 @@ const PREFIX = '!';
 
 const express = require('express');
 const mongoose = require('mongoose');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const path = require('path');
 const config = require('config');
 
@@ -62,7 +62,8 @@ client.on('message', (message) => {
               return {
                 name: `${player.name}`,
                 value: `Total Kills: ${player.kills}\n Last Kill Date: ${moment(
-                  player.lastKillDate
+                  player.lastKillDate,
+                  'America/New_York'
                 ).calendar()}`,
                 inline: false,
               };
